@@ -1,0 +1,6 @@
+secrets*
+*-history.txt
+graph.pdf
+graph.md
+graph*.png
+.ipynb_checkpoints/
