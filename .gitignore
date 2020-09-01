@@ -4,3 +4,4 @@ graph.pdf
 graph.md
 graph*.png
 .ipynb_checkpoints/
+__pycache__/
