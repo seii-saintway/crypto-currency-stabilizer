@@ -1,7 +1,7 @@
 secrets*
 *-history.txt
-graph.pdf
+*graph.pdf
 graph.md
-graph*.png
+*graph*.png
 .ipynb_checkpoints/
 __pycache__/
