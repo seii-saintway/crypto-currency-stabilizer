@@ -75,7 +75,7 @@ def get_ticker(symbol):
 
 
 def get_depth(symbol, depth):
-    """获market depth"""
+    """get market depth"""
     method = 'GET'
     path = '/open/api/v2/market/depth'
     url = '{}{}'.format(ROOT_URL, path)
