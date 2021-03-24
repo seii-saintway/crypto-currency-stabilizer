@@ -17,24 +17,27 @@ FIAT_SYMBOL = 'USDT'
 MAX_USED_FIAT_MONEY_LIMIT = Decimal('1000')
 
 # Internal Cell
+from ccstabilizer import MXC
+from ccstabilizer import secrets
 from ccstabilizer import Fetcher
 from ccstabilizer import Notifier
 from ccstabilizer import Trader
 from ccstabilizer import Status
 
 # Internal Cell
-fetcher = Fetcher()
-notifier = Notifier('Launcher')
+exchange = MXC()
+fetcher = Fetcher(exchange)
+notifier = Notifier(channel_name='mxc', name='Launcher')
 
 # notifier.send_slack(
 #     f'{CRYPTO_SYMBOL}-{FIAT_SYMBOL} Detecting started\n', 'Power by https://jhub.name/', 'good'
 # )
 
-symbol_in_mxc = f'{CRYPTO_SYMBOL}_{FIAT_SYMBOL}'
-crypto_info = {}
+trading_spec = {}
 while True:
-    crypto_info = fetcher.get_trading_spec(symbol_in_mxc)
-    if crypto_info.get('symbol', '') == symbol_in_mxc and crypto_info.get('limited', False) == True:
+    exchange.update_trading_specifications()
+    trading_spec = fetcher.get_trading_spec(CRYPTO_SYMBOL, FIAT_SYMBOL)
+    if trading_spec.get('liquid', False) == True:
         break
     else:
         time.sleep(Trader.SAMPLE_INTERVAL)
@@ -47,8 +50,8 @@ status = Status(
     robot_name = f'{CRYPTO_SYMBOL} Robot',
     crypto_symbol = CRYPTO_SYMBOL,
     fiat_symbol = FIAT_SYMBOL,
+    trade_unit = trading_spec.get('min_trade_unit', 1),
     max_used_fiat_money_limit = MAX_USED_FIAT_MONEY_LIMIT,
-    **crypto_info
 )
 status.read()
 
@@ -60,19 +63,20 @@ from ccstabilizer import Trader
 import time
 
 
-with BookKeeper(status) as bookkeeper:
+with BookKeeper(exchange, [status]) as bookkeeper:
 
 #     from unittest.mock import Mock
 #     bookkeeper.prv.order = Mock()
 
     trader = Trader(
+        exchange = exchange,
         status = status,
         gainable_unit_cc_sold_ratio = Decimal('0.236'),
         lossable_unit_cc_bought_ratio = Decimal('0.786'),
         min_trade_fiat_price = Decimal('0'),
         max_trade_fiat_price = Decimal('Infinity')
     )
-    notifier = Notifier(status.crypto_symbol)
+    notifier = Notifier(channel_name='mxc', name=status.crypto_symbol)
 
     notifier.send_slack(
         f'{status.robot_name} launched\n' f'{status.get_robot_title()}', 'Power by https://jhub.name/', 'good'
@@ -85,7 +89,7 @@ with BookKeeper(status) as bookkeeper:
         bookkeeper.fsh.write(f'{status}\n')
 
 #         new_status = bookkeeper.estimate_functions.get(trade_type, lambda unit_amount: status)(unit_amount)
-        new_status = bookkeeper.estimate_status()
+        new_status = bookkeeper.estimate_status_list()[0]
 
         if new_status is not status:
 
