@@ -5,6 +5,7 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"Exchange": "00_exchange.ipynb",
          "Binance": "01_binance.ipynb",
          "BinanceAPI": "01_binance.ipynb",
+         "Bitbank": "02_bitbank.ipynb",
          "MXC": "02_mxc.ipynb",
          "MXCAPI": "02_mxc.ipynb",
          "Status": "10_status.ipynb",
@@ -30,12 +31,14 @@ index = {"Exchange": "00_exchange.ipynb",
          "messages": "main-mxc.ipynb",
          "color": "main-mxc.ipynb",
          "status_list": "main-mxc.ipynb",
+         "ICON_URL": "main-bitbank.ipynb",
          "FIAT_SYMBOLS": "main-mxc.ipynb",
          "Notifier": "notifier.ipynb"}
 
 modules = ["__init__.py",
            "ar.py",
            "binance.py",
+           "bitbank.py",
            "mxc.py",
            "secrets.py"]
 

@@ -42,3 +42,19 @@ restart-trade-binance:
 
 stop-trade-binance:
 	@sudo systemctl stop trade-binance.service
+
+init-trade-bitbank:
+	@sudo cp trade-bitbank.service /etc/systemd/system/
+	@sudo systemctl daemon-reload
+	@sudo systemctl enable trade-bitbank.service
+
+del-trade-bitbank:
+	@sudo rm /etc/systemd/system/trade-bitbank.service
+	@sudo systemctl daemon-reload
+	@sudo systemctl disable trade-bitbank.service
+
+restart-trade-bitbank:
+	@sudo systemctl restart trade-bitbank.service
+
+stop-trade-bitbank:
+	@sudo systemctl stop trade-bitbank.service
