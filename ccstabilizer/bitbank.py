@@ -18,27 +18,31 @@ MAX_USED_FIAT_MONEY_LIMIT = {
     ('LTC', 'JPY'): Decimal('100000'),
     ('BCC', 'JPY'): Decimal('100000'),
     ('XLM', 'JPY'): Decimal('100000'),
+    ('XRP', 'JPY'): Decimal('100000'),
     ('BAT', 'JPY'): Decimal('100000'),
 }
 GAINABLE_UNIT_CC_SOLD_RATIO = {
-    ('ETH', 'JPY'): Decimal('0.786'),
-    ('LTC', 'JPY'): Decimal('0.236'),
-    ('BCC', 'JPY'): Decimal('0.236'),
-    ('XLM', 'JPY'): Decimal('0.236'),
-    ('BAT', 'JPY'): Decimal('0.236'),
+    ('ETH', 'JPY'): Decimal('0.146'),
+    ('LTC', 'JPY'): Decimal('0.146'),
+    ('BCC', 'JPY'): Decimal('0.146'),
+    ('XLM', 'JPY'): Decimal('0.146'),
+    ('XRP', 'JPY'): Decimal('0.146'),
+    ('BAT', 'JPY'): Decimal('0.146'),
 }
 LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
     ('ETH', 'JPY'): Decimal('0.618'),
     ('LTC', 'JPY'): Decimal('0.786'),
     ('BCC', 'JPY'): Decimal('0.786'),
     ('XLM', 'JPY'): Decimal('0.786'),
+    ('XRP', 'JPY'): Decimal('0.786'),
     ('BAT', 'JPY'): Decimal('0.786'),
 }
 MIN_TRADE_FIAT_PRICE = {
-    ('ETH', 'JPY'): Decimal('5000'),
+    ('ETH', 'JPY'): Decimal('150000'),
     ('LTC', 'JPY'): Decimal('2000'),
     ('BCC', 'JPY'): Decimal('3000'),
     ('XLM', 'JPY'): Decimal('5'),
+    ('XRP', 'JPY'): Decimal('0'),
     ('BAT', 'JPY'): Decimal('0'),
 }
 MAX_TRADE_FIAT_PRICE = {
@@ -46,6 +50,7 @@ MAX_TRADE_FIAT_PRICE = {
     ('LTC', 'JPY'): Decimal('Infinity'),
     ('BCC', 'JPY'): Decimal('Infinity'),
     ('XLM', 'JPY'): Decimal('Infinity'),
+    ('XRP', 'JPY'): Decimal('Infinity'),
     ('BAT', 'JPY'): Decimal('Infinity'),
 }
 ICON_URL = {
@@ -53,6 +58,7 @@ ICON_URL = {
     ('LTC', 'JPY'): 'https://litecoin.org/img/litecoin.png',
     ('BCC', 'JPY'): 'https://www.bitcoincash.org/favicon-32x32.png',
     ('XLM', 'JPY'): 'https://descentralizar.info/content/images/2020/03/stellar-circle-mark-small-2.png',
+    ('XRP', 'JPY'): 'https://cryptologos.cc/logos/xrp-xrp-logo.png',
     ('BAT', 'JPY'): 'https://basicattentiontoken.org/static-assets/images/bat-favicon.png',
 }
 
@@ -65,6 +71,7 @@ from ccstabilizer import Trader
 from ccstabilizer import Status
 
 # Internal Cell
+Status.robot_name_prefix = 'BB-'
 exchange = Bitbank()
 fetcher = Fetcher(exchange)
 notifier = Notifier(channel_name='bitbank', name='Launcher')

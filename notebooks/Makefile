@@ -58,3 +58,19 @@ restart-trade-bitbank:
 
 stop-trade-bitbank:
 	@sudo systemctl stop trade-bitbank.service
+
+init-trade-huobi:
+	@sudo cp trade-huobi.service /etc/systemd/system/
+	@sudo systemctl daemon-reload
+	@sudo systemctl enable trade-huobi.service
+
+del-trade-huobi:
+	@sudo rm /etc/systemd/system/trade-huobi.service
+	@sudo systemctl daemon-reload
+	@sudo systemctl disable trade-huobi.service
+
+restart-trade-huobi:
+	@sudo systemctl restart trade-huobi.service
+
+stop-trade-huobi:
+	@sudo systemctl stop trade-huobi.service
