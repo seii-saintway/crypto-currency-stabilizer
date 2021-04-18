@@ -76,13 +76,15 @@ class Trader(TraderBase):
         status.init_buy_jpy = init_buy_jpy
 #         init_buy_jpy = min_trade_fiat_money_limit * 5
         # self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) !! status.unused_fiat_money
-        if status.used_fiat_money == 0 and self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) and self.has_buyable_fiat_price():
-            please_buy_unit_amount = math.ceil(init_buy_jpy / status.now_buy_fiat_price / status.trade_unit)
+        if status.used_fiat_money < min_trade_fiat_money_limit and self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) and self.has_buyable_fiat_price():
+            buy_fiat_money = max(init_buy_jpy - status.used_fiat_money, min_trade_fiat_money_limit)
+            please_buy_unit_amount = math.ceil(buy_fiat_money / status.now_buy_fiat_price / status.trade_unit)
 
         if status.used_fiat_money < init_buy_jpy and status.fiat_price_is_lower_than_average() and self.exchange.has_enough_unused_fiat_money(init_buy_jpy - status.used_fiat_money, status.unused_fiat_money) and self.has_buyable_fiat_price():
-            please_buy_unit_amount = math.ceil((init_buy_jpy - status.used_fiat_money) / status.now_buy_fiat_price / status.trade_unit)
+            buy_fiat_money = max(init_buy_jpy - status.used_fiat_money, min_trade_fiat_money_limit)
+            please_buy_unit_amount = math.ceil(buy_fiat_money / status.now_buy_fiat_price / status.trade_unit)
 
-        if status.used_fiat_money >= init_buy_jpy - min_trade_fiat_money_limit and status.fiat_price_is_lower_than_average():
+        if status.used_fiat_money >= init_buy_jpy and status.fiat_price_is_lower_than_average():
             trade_unit_amount = self.get_buy_unit_amount()
             while trade_unit_amount > 0 and not self.exchange.has_enough_unused_fiat_money(status.now_buy_fiat_price * status.trade_unit * trade_unit_amount, status.unused_fiat_money):
                 trade_unit_amount >>= 1
@@ -117,30 +119,30 @@ FIAT_SYMBOLS = {
     'HOPR': 'USDT',
 #     'OCEAN': 'USDT',
 #     'RLY': 'USDT',
-    'TARA': 'USDT',
-    'UT': 'USDT',
+#     'TARA': 'USDT',
+#     'UT': 'USDT',
     'VELO': 'USDT',
 #     'VIDY': 'USDT',
 #     'XLM': 'USDT',
-    'XPX': 'USDT',
+#     'XPX': 'USDT',
 #     'XRP': 'USDT',
 #     'ZYRO': 'USDT',
 }
 MAX_USED_FIAT_MONEY_LIMIT = {
 #     'AR': Decimal('1500'),
 #     'B20': Decimal('0'),
-    'BDP': Decimal('1000'),
+    'BDP': Decimal('0'),
 #     'ETH': Decimal('1500'),
 #     'FLOW': Decimal('1000'),
-    'HOPR': Decimal('1000'),
+    'HOPR': Decimal('0'),
 #     'OCEAN': Decimal('1000'),
 #     'RLY': Decimal('1000'),
-    'TARA': Decimal('1000'),
-    'UT': Decimal('1000'),
-    'VELO': Decimal('1000'),
+#     'TARA': Decimal('0'),
+#     'UT': Decimal('1000'),
+    'VELO': Decimal('0'),
 #     'VIDY': Decimal('1000'),
 #     'XLM': Decimal('1000'),
-    'XPX': Decimal('1000'),
+#     'XPX': Decimal('0'),
 #     'XRP': Decimal('Infinity'),
 #     'ZYRO': Decimal('1000'),
 }
@@ -153,12 +155,12 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
     'HOPR': Decimal('0.0557'),
 #     'OCEAN': Decimal('0.0557'),
 #     'RLY': Decimal('0.09'),
-    'TARA': Decimal('0.0131'),
-    'UT': Decimal('0.0131'),
+#     'TARA': Decimal('0.0131'),
+#     'UT': Decimal('0.0131'),
     'VELO': Decimal('0.0131'),
 #     'VIDY': Decimal('0.146'),
 #     'XLM': Decimal('0.09'),
-    'XPX': Decimal('0.0031'),
+#     'XPX': Decimal('0.0031'),
 #     'XRP': Decimal('0.236'),
 #     'ZYRO': Decimal('0.09'),
 }
@@ -171,12 +173,12 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
     'HOPR': Decimal('0.786'),
 #     'OCEAN': Decimal('0.786'),
 #     'RLY': Decimal('0.786'),
-    'TARA': Decimal('0.887'),
-    'UT': Decimal('0.786'),
+#     'TARA': Decimal('0.887'),
+#     'UT': Decimal('0.786'),
     'VELO': Decimal('0.887'),
 #     'VIDY': Decimal('0.618'),
 #     'XLM': Decimal('0.786'),
-    'XPX': Decimal('0.786'),
+#     'XPX': Decimal('0.786'),
 #     'XRP': Decimal('0.618'),
 #     'ZYRO': Decimal('0.887'),
 }
@@ -189,12 +191,12 @@ MIN_TRADE_FIAT_PRICE = {
     'HOPR': Decimal('0.7'),
 #     'OCEAN': Decimal('1'),
 #     'RLY': Decimal('0'),
-    'TARA': Decimal('0'),
-    'UT': Decimal('0'),
+#     'TARA': Decimal('0'),
+#     'UT': Decimal('0'),
     'VELO': Decimal('0'),
 #     'VIDY': Decimal('0'),
 #     'XLM': Decimal('0'),
-    'XPX': Decimal('0'),
+#     'XPX': Decimal('0'),
 #     'XRP': Decimal('0'),
 #     'ZYRO': Decimal('0'),
 }
@@ -207,12 +209,12 @@ MAX_TRADE_FIAT_PRICE = {
     'HOPR': Decimal('Infinity'),
 #     'OCEAN': Decimal('Infinity'),
 #     'RLY': Decimal('Infinity'),
-    'TARA': Decimal('Infinity'),
-    'UT': Decimal('Infinity'),
+#     'TARA': Decimal('Infinity'),
+#     'UT': Decimal('Infinity'),
     'VELO': Decimal('Infinity'),
 #     'VIDY': Decimal('Infinity'),
 #     'XLM': Decimal('Infinity'),
-    'XPX': Decimal('Infinity'),
+#     'XPX': Decimal('Infinity'),
 #     'XRP': Decimal('Infinity'),
 #     'ZYRO': Decimal('Infinity'),
 }

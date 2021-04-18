@@ -14,7 +14,7 @@ BACKUP_RATE = 1
 from decimal import Decimal
 
 MAX_USED_FIAT_MONEY_LIMIT = {
-    ('ETH', 'JPY'): Decimal('200000'),
+    ('ETH', 'JPY'): Decimal('500000'),
     ('LTC', 'JPY'): Decimal('100000'),
     ('BCC', 'JPY'): Decimal('100000'),
     ('XLM', 'JPY'): Decimal('100000'),
@@ -38,7 +38,7 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
     ('BAT', 'JPY'): Decimal('0.786'),
 }
 MIN_TRADE_FIAT_PRICE = {
-    ('ETH', 'JPY'): Decimal('150000'),
+    ('ETH', 'JPY'): Decimal('210000'),
     ('LTC', 'JPY'): Decimal('2000'),
     ('BCC', 'JPY'): Decimal('3000'),
     ('XLM', 'JPY'): Decimal('5'),
@@ -98,6 +98,8 @@ for crypto_symbol, fiat_symbol in MAX_USED_FIAT_MONEY_LIMIT:
         max_used_fiat_money_limit = max_used_fiat_money_limit,
     )
     status.read()
+    status.trade_unit = min_trade_unit
+    status.max_used_fiat_money_limit = max_used_fiat_money_limit
     status_list.append(status)
 
 notifier.send_slack(

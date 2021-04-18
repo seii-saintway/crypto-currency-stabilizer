@@ -311,8 +311,12 @@ class Huobi(Exchange):
         for spec in specs:
             crypto_symbol, fiat_symbol = spec.get('base-currency', '').upper(), spec.get('quote-currency', '').upper()
             trading_spec = self.trading_specifications.setdefault((crypto_symbol, fiat_symbol), {})
-            trading_spec['min_trade_unit'] = max(Decimal(repr(spec.get('limit-order-min-order-amt', 0.0001))), Decimal(repr(spec.get('sell-market-min-order-amt', 0.0001))))
-            trading_spec['min_trade_fiat_money_limit'] = Decimal(spec.get('min-order-value', '1'))
+            trading_spec['min_trade_unit'] = max(
+                Decimal(repr(spec.get('limit-order-min-order-amt', 0.0001))),
+                Decimal(repr(spec.get('sell-market-min-order-amt', 0.0001))),
+                Decimal('0.1') ** Decimal(repr(spec.get('amount-precision', 0))),
+            )
+            trading_spec['min_trade_fiat_money_limit'] = Decimal(repr(spec.get('min-order-value', 1)))
             trading_spec['fee_rate'] = Decimal('0.002')
             trading_spec['liquid'] = spec.get('api-trading', 'disabled') == 'enabled'
         return self.trading_specifications
@@ -336,7 +340,7 @@ class Huobi(Exchange):
         }
 
     def get_buy_fiat_price(self, fiat_price_without_fee, fee_rate):
-        return fiat_price_without_fee * (1 + fee_rate)
+        return fiat_price_without_fee / (1 - fee_rate)
 
     def get_sell_fiat_price(self, fiat_price_without_fee, fee_rate):
         return fiat_price_without_fee * (1 - fee_rate)
@@ -1388,7 +1392,7 @@ class Status(object):
         return self.used_fiat_money / max_used_fiat_money
 
     def get_robot_title(self):
-        robot_status_description = f'{self.get_usage() * 100:.2f}%'
+        robot_status_description = f'{self.get_usage() * 100:.2f}% / {self.get_gain_fiat_money_percentage() * 100:+.2f}%'
         if self.bought_average_fiat_price is not None:
             robot_status_description = f'{self.bought_average_fiat_price:.8f} / {robot_status_description}'
         return f'{self.robot_name} ({robot_status_description}) at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}'
@@ -1403,6 +1407,11 @@ class Status(object):
         self.gain_fiat_money = self.now_sell_fiat_price * self.bought_amount - self.used_fiat_money
         return self.now_sell_fiat_price * self.bought_amount - self.used_fiat_money
 
+    def get_gain_fiat_money_percentage(self):
+        if self.used_fiat_money > 0:
+            return self.get_gain_fiat_money() / self.used_fiat_money
+        return 0
+
     def get_total_gain_fiat_money(self):
         return self.total_gained_fiat_money + self.get_gain_fiat_money()
 
@@ -1411,12 +1420,8 @@ class Status(object):
         if self.bought_average_fiat_price is not None:
             diff_fiat_price = self.now_sell_fiat_price - self.bought_average_fiat_price
             sell_fiat_price_description = f'{diff_fiat_price:.8f} = {self.now_sell_fiat_price:.8f} - {self.bought_average_fiat_price:.8f}'
-        gain_fiat_money_description = f'{0:+.4f} ({0:.2f}%)'
-        if self.used_fiat_money > 0:
-            gain_fiat_money = self.get_gain_fiat_money()
-            gain_fiat_money_description = f'{gain_fiat_money:+.4f} ({gain_fiat_money / self.used_fiat_money * 100:+.2f}%)'
         return (
-            f'GAIN {self.get_total_gain_fiat_money():+.4f} = {self.total_gained_fiat_money:+.4f} {gain_fiat_money_description} {self.fiat_symbol} in total by {self.get_robot_title()} after\n'
+            f'GAIN {self.get_total_gain_fiat_money():+.4f} = {self.total_gained_fiat_money:+.4f} {self.get_gain_fiat_money():+.4f} ({self.get_gain_fiat_money_percentage() * 100:+.2f}%) {self.fiat_symbol} in total by {self.get_robot_title()} after\n'
             f'SELL {self.bought_amount:.4f} {self.crypto_symbol} for {sell_fiat_price_description} {self.fiat_symbol}/{self.crypto_symbol}. BUY for {self.now_buy_fiat_price:.8f} {self.fiat_symbol}/{self.crypto_symbol}.\n'
         )
 
@@ -2061,14 +2066,17 @@ class Trader(object):
         # TODO: self-adaptive by trend analysis
         # init_buy_jpy = status.get_max_used_fiat_money() / Decimal(math.exp(self.lossable_unit_cc_bought_ratio / (1 - self.lossable_unit_cc_bought_ratio)))
         init_buy_jpy = min_trade_fiat_money_limit * 5
-        # self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) !! status.unused_fiat_money
-        if status.used_fiat_money == 0 and self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) and self.has_buyable_fiat_price():
-            please_buy_unit_amount = math.ceil(init_buy_jpy / status.now_buy_fiat_price / status.trade_unit)
+        status.init_buy_jpy = init_buy_jpy
+        # self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) !! status.unused_fiat_money !! what if set max_used_fiat_money_limit to 0
+        if status.used_fiat_money < min_trade_fiat_money_limit and self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) and self.has_buyable_fiat_price():
+            buy_fiat_money = max(init_buy_jpy - status.used_fiat_money, min_trade_fiat_money_limit)
+            please_buy_unit_amount = math.ceil(buy_fiat_money / status.now_buy_fiat_price / status.trade_unit)
 
         if status.used_fiat_money < init_buy_jpy and status.fiat_price_is_lower_than_average() and self.exchange.has_enough_unused_fiat_money(init_buy_jpy - status.used_fiat_money, status.unused_fiat_money) and self.has_buyable_fiat_price():
-            please_buy_unit_amount = math.ceil((init_buy_jpy - status.used_fiat_money) / status.now_buy_fiat_price / status.trade_unit)
+            buy_fiat_money = max(init_buy_jpy - status.used_fiat_money, min_trade_fiat_money_limit)
+            please_buy_unit_amount = math.ceil(buy_fiat_money / status.now_buy_fiat_price / status.trade_unit)
 
-        if status.used_fiat_money >= init_buy_jpy - min_trade_fiat_money_limit and status.fiat_price_is_lower_than_average():
+        if status.used_fiat_money >= init_buy_jpy and status.fiat_price_is_lower_than_average():
             trade_unit_amount = self.get_buy_unit_amount()
             while trade_unit_amount > 0 and not self.exchange.has_enough_unused_fiat_money(status.now_buy_fiat_price * status.trade_unit * trade_unit_amount, status.unused_fiat_money):
                 trade_unit_amount >>= 1
