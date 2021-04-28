@@ -74,7 +74,7 @@ class Trader(TraderBase):
         # TODO: self-adaptive by trend analysis
 #         init_buy_jpy = min_trade_fiat_money_limit * 5
 #         init_buy_jpy = status.get_max_used_fiat_money() / Decimal(math.exp(self.lossable_unit_cc_bought_ratio / (1 - self.lossable_unit_cc_bought_ratio)))
-        init_buy_jpy = status.get_max_used_fiat_money() / 10
+        init_buy_jpy = status.get_max_used_fiat_money() / 20
         status.init_buy_jpy = init_buy_jpy
         # self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) !! status.unused_fiat_money
         if status.used_fiat_money < min_trade_fiat_money_limit and self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) and self.has_buyable_fiat_price():
@@ -134,27 +134,27 @@ MAX_USED_FIAT_MONEY_LIMIT = {
 #     ('WIN', 'USDT'): Decimal('1000'),
 #     ('XLM', 'USDT'): Decimal('1000'),
     ('XRP', 'USDT'): Decimal('2000'),
-    ('BNB', 'ETH'): Decimal('Infinity'),
+#     ('BNB', 'ETH'): Decimal('Infinity'),
 #     ('HOT', 'ETH'): Decimal('Infinity'),
 #     ('PUNDIX', 'ETH'): Decimal('Infinity'),
 #     ('SC', 'ETH'): Decimal('Infinity'),
 #     ('XLM', 'ETH'): Decimal('Infinity'),
-    ('XRP', 'ETH'): Decimal('Infinity'),
+#     ('XRP', 'ETH'): Decimal('Infinity'),
 #     ('CRV', 'BNB'): Decimal('Infinity'),
 #     ('FIL', 'BNB'): Decimal('Infinity'),
 #     ('HARD', 'BNB'): Decimal('Infinity'),
 #     ('HOT', 'BNB'): Decimal('Infinity'),
 #     ('NMR', 'BNB'): Decimal('Infinity'),
 #     ('OCEAN', 'BNB'): Decimal('Infinity'),
-    ('ONE', 'BNB'): Decimal('Infinity'),
-    ('SC', 'BNB'): Decimal('Infinity'),
+#     ('ONE', 'BNB'): Decimal('Infinity'),
+#     ('SC', 'BNB'): Decimal('Infinity'),
 #     ('XLM', 'BNB'): Decimal('Infinity'),
-    ('XRP', 'BNB'): Decimal('Infinity'),
+#     ('XRP', 'BNB'): Decimal('Infinity'),
 #     ('WIN', 'TRX'): Decimal('Infinity'),
 }
 GAINABLE_UNIT_CC_SOLD_RATIO = {
-    ('ETH', 'USDT'): Decimal('0.146'),
-    ('BNB', 'USDT'): Decimal('0.146'),
+    ('ETH', 'USDT'): Decimal('0.618'),
+    ('BNB', 'USDT'): Decimal('0.618'),
 #     ('AUTO', 'USDT'): Decimal('0.0557'),
     ('CELO', 'USDT'): Decimal('0.618'),
 #     ('CRV', 'USDT'): Decimal('0.146'),
@@ -166,38 +166,38 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     ('NMR', 'USDT'): Decimal('0.146'),
 #     ('PUNDIX', 'USDT'): Decimal('0.146'),
 #     ('OCEAN', 'USDT'): Decimal('0.146'),
-    ('ONE', 'USDT'): Decimal('0.146'),
+    ('ONE', 'USDT'): Decimal('0.236'),
 #     ('OXT', 'USDT'): Decimal('0.146'),
-    ('SC', 'USDT'): Decimal('0.146'),
+    ('SC', 'USDT'): Decimal('0.09'),
 #     ('SKL', 'USDT'): Decimal('0.146'),
 #     ('STORJ', 'USDT'): Decimal('0.146'),
 #     ('TRX', 'USDT'): Decimal('0.146'),
 #     ('WIN', 'USDT'): Decimal('0.382'),
 #     ('XLM', 'USDT'): Decimal('0.146'),
-    ('XRP', 'USDT'): Decimal('0.146'),
-    ('BNB', 'ETH'): Decimal('0.146'),
+    ('XRP', 'USDT'): Decimal('0.236'),
+#     ('BNB', 'ETH'): Decimal('0.146'),
 #     ('HOT', 'ETH'): Decimal('0.146'),
 #     ('PUNDIX', 'ETH'): Decimal('0.146'),
 #     ('SC', 'ETH'): Decimal('0.146'),
 #     ('XLM', 'ETH'): Decimal('0.146'),
-    ('XRP', 'ETH'): Decimal('0.146'),
+#     ('XRP', 'ETH'): Decimal('0.146'),
 #     ('CRV', 'BNB'): Decimal('0.146'),
 #     ('FIL', 'BNB'): Decimal('0.146'),
 #     ('HARD', 'BNB'): Decimal('0.146'),
 #     ('HOT', 'BNB'): Decimal('0.146'),
 #     ('NMR', 'BNB'): Decimal('0.146'),
 #     ('OCEAN', 'BNB'): Decimal('0.146'),
-    ('ONE', 'BNB'): Decimal('0.146'),
-    ('SC', 'BNB'): Decimal('0.146'),
+#     ('ONE', 'BNB'): Decimal('0.146'),
+#     ('SC', 'BNB'): Decimal('0.146'),
 #     ('XLM', 'BNB'): Decimal('0.146'),
-    ('XRP', 'BNB'): Decimal('0.146'),
+#     ('XRP', 'BNB'): Decimal('0.146'),
 #     ('WIN', 'TRX'): Decimal('0.146'),
 }
 LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
     ('ETH', 'USDT'): Decimal('0.618'),
     ('BNB', 'USDT'): Decimal('0.618'),
 #     ('AUTO', 'USDT'): Decimal('0.618'),
-    ('CELO', 'USDT'): Decimal('0.618'),
+    ('CELO', 'USDT'): Decimal('0.786'),
 #     ('CRV', 'USDT'): Decimal('0.618'),
 #     ('EPS', 'USDT'): Decimal('0.618'),
 #     ('FIL', 'USDT'): Decimal('0.618'),
@@ -216,28 +216,28 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 #     ('WIN', 'USDT'): Decimal('0.618'),
 #     ('XLM', 'USDT'): Decimal('0.618'),
     ('XRP', 'USDT'): Decimal('0.618'),
-    ('BNB', 'ETH'): Decimal('0.382'),
+#     ('BNB', 'ETH'): Decimal('0.382'),
 #     ('HOT', 'ETH'): Decimal('0.382'),
 #     ('PUNDIX', 'ETH'): Decimal('0.382'),
 #     ('SC', 'ETH'): Decimal('0.382'),
 #     ('XLM', 'ETH'): Decimal('0.382'),
-    ('XRP', 'ETH'): Decimal('0.382'),
+#     ('XRP', 'ETH'): Decimal('0.382'),
 #     ('CRV', 'BNB'): Decimal('0.236'),
 #     ('FIL', 'BNB'): Decimal('0.236'),
 #     ('HARD', 'BNB'): Decimal('0.236'),
 #     ('HOT', 'BNB'): Decimal('0.236'),
 #     ('NMR', 'BNB'): Decimal('0.236'),
 #     ('OCEAN', 'BNB'): Decimal('0.236'),
-    ('ONE', 'BNB'): Decimal('0.236'),
-    ('SC', 'BNB'): Decimal('0.236'),
+#     ('ONE', 'BNB'): Decimal('0.236'),
+#     ('SC', 'BNB'): Decimal('0.236'),
 #     ('XLM', 'BNB'): Decimal('0.236'),
-    ('XRP', 'BNB'): Decimal('0.236'),
+#     ('XRP', 'BNB'): Decimal('0.236'),
 #     ('WIN', 'TRX'): Decimal('0.146'),
 }
 # => MA(99)
 MIN_TRADE_FIAT_PRICE = {
-    ('ETH', 'USDT'): Decimal('1380'),
-    ('BNB', 'USDT'): Decimal('210'),
+    ('ETH', 'USDT'): Decimal('400'),
+    ('BNB', 'USDT'): Decimal('170'),
 #     ('AUTO', 'USDT'): Decimal('0'),
     ('CELO', 'USDT'): Decimal('3'),
 #     ('CRV', 'USDT'): Decimal('0'),
@@ -251,29 +251,29 @@ MIN_TRADE_FIAT_PRICE = {
 #     ('OCEAN', 'USDT'): Decimal('0'),
     ('ONE', 'USDT'): Decimal('0.045'),
 #     ('OXT', 'USDT'): Decimal('0'),
-    ('SC', 'USDT'): Decimal('0.017'),
+    ('SC', 'USDT'): Decimal('0.012'),
 #     ('SKL', 'USDT'): Decimal('0'),
 #     ('STORJ', 'USDT'): Decimal('0'),
 #     ('TRX', 'USDT'): Decimal('0'),
 #     ('WIN', 'USDT'): Decimal('0'),
 #     ('XLM', 'USDT'): Decimal('0'),
     ('XRP', 'USDT'): Decimal('0.55'),
-    ('BNB', 'ETH'): Decimal('0'),
+#     ('BNB', 'ETH'): Decimal('0'),
 #     ('HOT', 'ETH'): Decimal('0'),
 #     ('PUNDIX', 'ETH'): Decimal('0'),
 #     ('SC', 'ETH'): Decimal('0'),
 #     ('XLM', 'ETH'): Decimal('0'),
-    ('XRP', 'ETH'): Decimal('0'),
+#     ('XRP', 'ETH'): Decimal('0'),
 #     ('CRV', 'BNB'): Decimal('0'),
 #     ('FIL', 'BNB'): Decimal('0'),
 #     ('HARD', 'BNB'): Decimal('0'),
 #     ('HOT', 'BNB'): Decimal('0'),
 #     ('NMR', 'BNB'): Decimal('0'),
 #     ('OCEAN', 'BNB'): Decimal('0'),
-    ('ONE', 'BNB'): Decimal('0'),
-    ('SC', 'BNB'): Decimal('0'),
+#     ('ONE', 'BNB'): Decimal('0'),
+#     ('SC', 'BNB'): Decimal('0'),
 #     ('XLM', 'BNB'): Decimal('0'),
-    ('XRP', 'BNB'): Decimal('0'),
+#     ('XRP', 'BNB'): Decimal('0'),
 #     ('WIN', 'TRX'): Decimal('0'),
 }
 MAX_TRADE_FIAT_PRICE = {
@@ -299,22 +299,22 @@ MAX_TRADE_FIAT_PRICE = {
 #     ('WIN', 'USDT'): Decimal('Infinity'),
 #     ('XLM', 'USDT'): Decimal('Infinity'),
     ('XRP', 'USDT'): Decimal('Infinity'),
-    ('BNB', 'ETH'): Decimal('Infinity'),
+#     ('BNB', 'ETH'): Decimal('Infinity'),
 #     ('HOT', 'ETH'): Decimal('Infinity'),
 #     ('PUNDIX', 'ETH'): Decimal('Infinity'),
 #     ('SC', 'ETH'): Decimal('Infinity'),
 #     ('XLM', 'ETH'): Decimal('Infinity'),
-    ('XRP', 'ETH'): Decimal('Infinity'),
+#     ('XRP', 'ETH'): Decimal('Infinity'),
 #     ('CRV', 'BNB'): Decimal('Infinity'),
 #     ('FIL', 'BNB'): Decimal('Infinity'),
 #     ('HARD', 'BNB'): Decimal('Infinity'),
 #     ('HOT', 'BNB'): Decimal('Infinity'),
 #     ('NMR', 'BNB'): Decimal('Infinity'),
 #     ('OCEAN', 'BNB'): Decimal('Infinity'),
-    ('ONE', 'BNB'): Decimal('Infinity'),
-    ('SC', 'BNB'): Decimal('Infinity'),
+#     ('ONE', 'BNB'): Decimal('Infinity'),
+#     ('SC', 'BNB'): Decimal('Infinity'),
 #     ('XLM', 'BNB'): Decimal('Infinity'),
-    ('XRP', 'BNB'): Decimal('Infinity'),
+#     ('XRP', 'BNB'): Decimal('Infinity'),
 #     ('WIN', 'TRX'): Decimal('Infinity'),
 }
 ICON_URL = {
@@ -411,7 +411,7 @@ with BookKeeper(exchange, status_list) as bookkeeper:
         notifier_list.append(Notifier(
             channel_name='binance',
             name=f'{status.crypto_symbol}-{status.fiat_symbol}',
-            icon_url=ICON_URL.get(status.crypto_symbol, 'https://jupyter.org/assets/apple-touch-icon.png')
+            icon_url=ICON_URL.get(status.crypto_symbol, 'https://jupyter.org/assets/apple-touch-icon.png'),
         ))
         messages.append(f'{status.get_robot_title()} launched')
 
@@ -448,10 +448,10 @@ with BookKeeper(exchange, status_list) as bookkeeper:
                 messages.append(f'{status_list[i].last_transaction} => {status_list[i].get_robot_title()}')
                 messages.append(f'{status_list[i]} => Support level is {trader_list[i].min_unit_cc_trade_fiat_money} {status_list[i].fiat_symbol}.\n')
 
-        if status.bought_unit_amount == 0:
-            messages.append(f'{status.get_robot_title()} terminated')
-            del status_list[idx], trader_list[idx], notifier_list[idx]
-            num = len(status_list)
+#         if status.bought_unit_amount == 0:
+#             messages.append(f'{status.get_robot_title()} terminated')
+#             del status_list[idx], trader_list[idx], notifier_list[idx]
+#             num = len(status_list)
 
 #         if status.total_gained_fiat_money < -Trader.MAX_LOST_JPY:
 #             messages.append(f'{status.get_robot_title()} terminated')

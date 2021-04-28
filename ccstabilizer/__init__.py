@@ -155,6 +155,9 @@ class BinanceAPI(object):
                     return self.call_api(**kwargs)
                 except Exception as e:
                     print(e)
+                    Notifier(channel_name='binance', name='API ERROR').send_slack(
+                        e, 'Power by https://jhub.name/', 'good'
+                    )
                     raise
                     time.sleep(type(self).RETRY_INTERVAL)
 
@@ -1407,6 +1410,7 @@ class Status(object):
         self.gain_fiat_money = self.now_sell_fiat_price * self.bought_amount - self.used_fiat_money
         return self.now_sell_fiat_price * self.bought_amount - self.used_fiat_money
 
+    # TODO: time measurement, binance-like cumulative profit curve
     def get_gain_fiat_money_percentage(self):
         if self.used_fiat_money > 0:
             return self.get_gain_fiat_money() / self.used_fiat_money

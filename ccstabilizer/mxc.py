@@ -12,6 +12,7 @@ NOTIFY_RATE = 60 * 8
 BACKUP_RATE = 1
 
 # Cell
+from decimal import Decimal
 import math
 from ccstabilizer import Trader as TraderBase
 
@@ -72,7 +73,8 @@ class Trader(TraderBase):
         please_buy_unit_amount = 0
 
         # TODO: self-adaptive by trend analysis
-        init_buy_jpy = status.get_max_used_fiat_money() / Decimal(math.exp(self.lossable_unit_cc_bought_ratio / (1 - self.lossable_unit_cc_bought_ratio)))
+#         init_buy_jpy = status.get_max_used_fiat_money() / Decimal(math.exp(self.lossable_unit_cc_bought_ratio / (1 - self.lossable_unit_cc_bought_ratio)))
+        init_buy_jpy = min_trade_fiat_money_limit * Decimal('1.5')
         status.init_buy_jpy = init_buy_jpy
 #         init_buy_jpy = min_trade_fiat_money_limit * 5
         # self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) !! status.unused_fiat_money
@@ -113,7 +115,7 @@ from decimal import Decimal
 FIAT_SYMBOLS = {
 #     'AR': 'USDT',
 #     'B20': 'USDT',
-    'BDP': 'USDT',
+#     'BDP': 'USDT',
 #     'ETH': 'USDT',
 #     'FLOW': 'USDT',
     'HOPR': 'USDT',
@@ -121,7 +123,7 @@ FIAT_SYMBOLS = {
 #     'RLY': 'USDT',
 #     'TARA': 'USDT',
 #     'UT': 'USDT',
-    'VELO': 'USDT',
+#     'VELO': 'USDT',
 #     'VIDY': 'USDT',
 #     'XLM': 'USDT',
 #     'XPX': 'USDT',
@@ -131,15 +133,15 @@ FIAT_SYMBOLS = {
 MAX_USED_FIAT_MONEY_LIMIT = {
 #     'AR': Decimal('1500'),
 #     'B20': Decimal('0'),
-    'BDP': Decimal('0'),
+#     'BDP': Decimal('0'),
 #     'ETH': Decimal('1500'),
 #     'FLOW': Decimal('1000'),
-    'HOPR': Decimal('0'),
+    'HOPR': Decimal('Infinity'),
 #     'OCEAN': Decimal('1000'),
 #     'RLY': Decimal('1000'),
 #     'TARA': Decimal('0'),
 #     'UT': Decimal('1000'),
-    'VELO': Decimal('0'),
+#     'VELO': Decimal('0'),
 #     'VIDY': Decimal('1000'),
 #     'XLM': Decimal('1000'),
 #     'XPX': Decimal('0'),
@@ -149,15 +151,15 @@ MAX_USED_FIAT_MONEY_LIMIT = {
 GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     'AR': Decimal('0.236'),
 #     'B20': Decimal('0.0031'),
-    'BDP': Decimal('0.09'),
+#     'BDP': Decimal('0.09'),
 #     'ETH': Decimal('0.0131'),
 #     'FLOW': Decimal('0.09'),
-    'HOPR': Decimal('0.0557'),
+    'HOPR': Decimal('1000000000.00'),
 #     'OCEAN': Decimal('0.0557'),
 #     'RLY': Decimal('0.09'),
 #     'TARA': Decimal('0.0131'),
 #     'UT': Decimal('0.0131'),
-    'VELO': Decimal('0.0131'),
+#     'VELO': Decimal('0.0131'),
 #     'VIDY': Decimal('0.146'),
 #     'XLM': Decimal('0.09'),
 #     'XPX': Decimal('0.0031'),
@@ -167,15 +169,15 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 #     'AR': Decimal('0.618'),
 #     'B20': Decimal('0.618'),
-    'BDP': Decimal('0.887'),
+#     'BDP': Decimal('0.887'),
 #     'ETH': Decimal('0.618'),
 #     'FLOW': Decimal('0.887'),
-    'HOPR': Decimal('0.786'),
+    'HOPR': Decimal('0.999999999'),
 #     'OCEAN': Decimal('0.786'),
 #     'RLY': Decimal('0.786'),
 #     'TARA': Decimal('0.887'),
 #     'UT': Decimal('0.786'),
-    'VELO': Decimal('0.887'),
+#     'VELO': Decimal('0.887'),
 #     'VIDY': Decimal('0.618'),
 #     'XLM': Decimal('0.786'),
 #     'XPX': Decimal('0.786'),
@@ -185,15 +187,15 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 MIN_TRADE_FIAT_PRICE = {
 #     'AR': Decimal('0'),
 #     'B20': Decimal('5'),
-    'BDP': Decimal('0'),
+#     'BDP': Decimal('0'),
 #     'ETH': Decimal('1300'),
 #     'FLOW': Decimal('0'),
-    'HOPR': Decimal('0.7'),
+    'HOPR': Decimal('0'),
 #     'OCEAN': Decimal('1'),
 #     'RLY': Decimal('0'),
 #     'TARA': Decimal('0'),
 #     'UT': Decimal('0'),
-    'VELO': Decimal('0'),
+#     'VELO': Decimal('0'),
 #     'VIDY': Decimal('0'),
 #     'XLM': Decimal('0'),
 #     'XPX': Decimal('0'),
@@ -203,7 +205,7 @@ MIN_TRADE_FIAT_PRICE = {
 MAX_TRADE_FIAT_PRICE = {
 #     'AR': Decimal('Infinity'),
 #     'B20': Decimal('Infinity'),
-    'BDP': Decimal('Infinity'),
+#     'BDP': Decimal('Infinity'),
 #     'ETH': Decimal('Infinity'),
 #     'FLOW': Decimal('Infinity'),
     'HOPR': Decimal('Infinity'),
@@ -211,7 +213,7 @@ MAX_TRADE_FIAT_PRICE = {
 #     'RLY': Decimal('Infinity'),
 #     'TARA': Decimal('Infinity'),
 #     'UT': Decimal('Infinity'),
-    'VELO': Decimal('Infinity'),
+#     'VELO': Decimal('Infinity'),
 #     'VIDY': Decimal('Infinity'),
 #     'XLM': Decimal('Infinity'),
 #     'XPX': Decimal('Infinity'),
