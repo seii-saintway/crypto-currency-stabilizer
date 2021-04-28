@@ -166,7 +166,7 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     ('NMR', 'USDT'): Decimal('0.146'),
 #     ('PUNDIX', 'USDT'): Decimal('0.146'),
 #     ('OCEAN', 'USDT'): Decimal('0.146'),
-    ('ONE', 'USDT'): Decimal('0.236'),
+    ('ONE', 'USDT'): Decimal('0.09'),
 #     ('OXT', 'USDT'): Decimal('0.146'),
     ('SC', 'USDT'): Decimal('0.09'),
 #     ('SKL', 'USDT'): Decimal('0.146'),
@@ -174,7 +174,7 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     ('TRX', 'USDT'): Decimal('0.146'),
 #     ('WIN', 'USDT'): Decimal('0.382'),
 #     ('XLM', 'USDT'): Decimal('0.146'),
-    ('XRP', 'USDT'): Decimal('0.236'),
+    ('XRP', 'USDT'): Decimal('0.09'),
 #     ('BNB', 'ETH'): Decimal('0.146'),
 #     ('HOT', 'ETH'): Decimal('0.146'),
 #     ('PUNDIX', 'ETH'): Decimal('0.146'),
@@ -194,10 +194,10 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     ('WIN', 'TRX'): Decimal('0.146'),
 }
 LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
-    ('ETH', 'USDT'): Decimal('0.618'),
-    ('BNB', 'USDT'): Decimal('0.618'),
+    ('ETH', 'USDT'): Decimal('0.5264'),
+    ('BNB', 'USDT'): Decimal('0.5264'),
 #     ('AUTO', 'USDT'): Decimal('0.618'),
-    ('CELO', 'USDT'): Decimal('0.786'),
+    ('CELO', 'USDT'): Decimal('0.5264'),
 #     ('CRV', 'USDT'): Decimal('0.618'),
 #     ('EPS', 'USDT'): Decimal('0.618'),
 #     ('FIL', 'USDT'): Decimal('0.618'),
@@ -207,15 +207,15 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 #     ('NMR', 'USDT'): Decimal('0.618'),
 #     ('PUNDIX', 'USDT'): Decimal('0.618'),
 #     ('OCEAN', 'USDT'): Decimal('0.618'),
-    ('ONE', 'USDT'): Decimal('0.618'),
+    ('ONE', 'USDT'): Decimal('0.5264'),
 #     ('OXT', 'USDT'): Decimal('0.618'),
-    ('SC', 'USDT'): Decimal('0.618'),
+    ('SC', 'USDT'): Decimal('0.5264'),
 #     ('SKL', 'USDT'): Decimal('0.618'),
 #     ('STORJ', 'USDT'): Decimal('0.618'),
 #     ('TRX', 'USDT'): Decimal('0.618'),
 #     ('WIN', 'USDT'): Decimal('0.618'),
 #     ('XLM', 'USDT'): Decimal('0.618'),
-    ('XRP', 'USDT'): Decimal('0.618'),
+    ('XRP', 'USDT'): Decimal('0.5264'),
 #     ('BNB', 'ETH'): Decimal('0.382'),
 #     ('HOT', 'ETH'): Decimal('0.382'),
 #     ('PUNDIX', 'ETH'): Decimal('0.382'),
@@ -234,10 +234,10 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 #     ('XRP', 'BNB'): Decimal('0.236'),
 #     ('WIN', 'TRX'): Decimal('0.146'),
 }
-# => MA(99)
+# => MA(120)
 MIN_TRADE_FIAT_PRICE = {
-    ('ETH', 'USDT'): Decimal('400'),
-    ('BNB', 'USDT'): Decimal('170'),
+    ('ETH', 'USDT'): Decimal('1700'),
+    ('BNB', 'USDT'): Decimal('230'),
 #     ('AUTO', 'USDT'): Decimal('0'),
     ('CELO', 'USDT'): Decimal('3'),
 #     ('CRV', 'USDT'): Decimal('0'),
@@ -249,15 +249,15 @@ MIN_TRADE_FIAT_PRICE = {
 #     ('NMR', 'USDT'): Decimal('0'),
 #     ('PUNDIX', 'USDT'): Decimal('0'),
 #     ('OCEAN', 'USDT'): Decimal('0'),
-    ('ONE', 'USDT'): Decimal('0.045'),
+    ('ONE', 'USDT'): Decimal('0.066'),
 #     ('OXT', 'USDT'): Decimal('0'),
-    ('SC', 'USDT'): Decimal('0.012'),
+    ('SC', 'USDT'): Decimal('0.016'),
 #     ('SKL', 'USDT'): Decimal('0'),
 #     ('STORJ', 'USDT'): Decimal('0'),
 #     ('TRX', 'USDT'): Decimal('0'),
 #     ('WIN', 'USDT'): Decimal('0'),
 #     ('XLM', 'USDT'): Decimal('0'),
-    ('XRP', 'USDT'): Decimal('0.55'),
+    ('XRP', 'USDT'): Decimal('0.60'),
 #     ('BNB', 'ETH'): Decimal('0'),
 #     ('HOT', 'ETH'): Decimal('0'),
 #     ('PUNDIX', 'ETH'): Decimal('0'),
@@ -448,10 +448,10 @@ with BookKeeper(exchange, status_list) as bookkeeper:
                 messages.append(f'{status_list[i].last_transaction} => {status_list[i].get_robot_title()}')
                 messages.append(f'{status_list[i]} => Support level is {trader_list[i].min_unit_cc_trade_fiat_money} {status_list[i].fiat_symbol}.\n')
 
-#         if status.bought_unit_amount == 0:
-#             messages.append(f'{status.get_robot_title()} terminated')
-#             del status_list[idx], trader_list[idx], notifier_list[idx]
-#             num = len(status_list)
+        if status.bought_unit_amount == 0:
+            messages.append(f'{status.get_robot_title()} terminated')
+            del status_list[idx], trader_list[idx], notifier_list[idx]
+            num = len(status_list)
 
 #         if status.total_gained_fiat_money < -Trader.MAX_LOST_JPY:
 #             messages.append(f'{status.get_robot_title()} terminated')
