@@ -73,8 +73,8 @@ class Trader(TraderBase):
 
         # TODO: self-adaptive by trend analysis
 #         init_buy_jpy = min_trade_fiat_money_limit * 5
-#         init_buy_jpy = status.get_max_used_fiat_money() / Decimal(math.exp(self.lossable_unit_cc_bought_ratio / (1 - self.lossable_unit_cc_bought_ratio)))
-        init_buy_jpy = status.get_max_used_fiat_money() / 20
+        init_buy_jpy = status.get_max_used_fiat_money() / Decimal(math.exp(self.lossable_unit_cc_bought_ratio / (1 - self.lossable_unit_cc_bought_ratio)))
+#         init_buy_jpy = status.get_max_used_fiat_money() / 20
         status.init_buy_jpy = init_buy_jpy
         # self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) !! status.unused_fiat_money
         if status.used_fiat_money < min_trade_fiat_money_limit and self.exchange.has_enough_unused_fiat_money(init_buy_jpy, status.unused_fiat_money) and self.has_buyable_fiat_price():
@@ -134,12 +134,12 @@ MAX_USED_FIAT_MONEY_LIMIT = {
 #     ('WIN', 'USDT'): Decimal('1000'),
 #     ('XLM', 'USDT'): Decimal('1000'),
     ('XRP', 'USDT'): Decimal('2000'),
-#     ('BNB', 'ETH'): Decimal('Infinity'),
+    ('BNB', 'ETH'): Decimal('Infinity'),
 #     ('HOT', 'ETH'): Decimal('Infinity'),
 #     ('PUNDIX', 'ETH'): Decimal('Infinity'),
 #     ('SC', 'ETH'): Decimal('Infinity'),
 #     ('XLM', 'ETH'): Decimal('Infinity'),
-#     ('XRP', 'ETH'): Decimal('Infinity'),
+    ('XRP', 'ETH'): Decimal('Infinity'),
 #     ('CRV', 'BNB'): Decimal('Infinity'),
 #     ('FIL', 'BNB'): Decimal('Infinity'),
 #     ('HARD', 'BNB'): Decimal('Infinity'),
@@ -149,7 +149,7 @@ MAX_USED_FIAT_MONEY_LIMIT = {
 #     ('ONE', 'BNB'): Decimal('Infinity'),
 #     ('SC', 'BNB'): Decimal('Infinity'),
 #     ('XLM', 'BNB'): Decimal('Infinity'),
-#     ('XRP', 'BNB'): Decimal('Infinity'),
+    ('XRP', 'BNB'): Decimal('Infinity'),
 #     ('WIN', 'TRX'): Decimal('Infinity'),
 }
 GAINABLE_UNIT_CC_SOLD_RATIO = {
@@ -175,12 +175,12 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     ('WIN', 'USDT'): Decimal('0.382'),
 #     ('XLM', 'USDT'): Decimal('0.146'),
     ('XRP', 'USDT'): Decimal('0.09'),
-#     ('BNB', 'ETH'): Decimal('0.146'),
+    ('BNB', 'ETH'): Decimal('0.146'),
 #     ('HOT', 'ETH'): Decimal('0.146'),
 #     ('PUNDIX', 'ETH'): Decimal('0.146'),
 #     ('SC', 'ETH'): Decimal('0.146'),
 #     ('XLM', 'ETH'): Decimal('0.146'),
-#     ('XRP', 'ETH'): Decimal('0.146'),
+    ('XRP', 'ETH'): Decimal('0.146'),
 #     ('CRV', 'BNB'): Decimal('0.146'),
 #     ('FIL', 'BNB'): Decimal('0.146'),
 #     ('HARD', 'BNB'): Decimal('0.146'),
@@ -190,7 +190,7 @@ GAINABLE_UNIT_CC_SOLD_RATIO = {
 #     ('ONE', 'BNB'): Decimal('0.146'),
 #     ('SC', 'BNB'): Decimal('0.146'),
 #     ('XLM', 'BNB'): Decimal('0.146'),
-#     ('XRP', 'BNB'): Decimal('0.146'),
+    ('XRP', 'BNB'): Decimal('0.146'),
 #     ('WIN', 'TRX'): Decimal('0.146'),
 }
 LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
@@ -216,12 +216,12 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 #     ('WIN', 'USDT'): Decimal('0.618'),
 #     ('XLM', 'USDT'): Decimal('0.618'),
     ('XRP', 'USDT'): Decimal('0.5264'),
-#     ('BNB', 'ETH'): Decimal('0.382'),
+    ('BNB', 'ETH'): Decimal('0.382'),
 #     ('HOT', 'ETH'): Decimal('0.382'),
 #     ('PUNDIX', 'ETH'): Decimal('0.382'),
 #     ('SC', 'ETH'): Decimal('0.382'),
 #     ('XLM', 'ETH'): Decimal('0.382'),
-#     ('XRP', 'ETH'): Decimal('0.382'),
+    ('XRP', 'ETH'): Decimal('0.382'),
 #     ('CRV', 'BNB'): Decimal('0.236'),
 #     ('FIL', 'BNB'): Decimal('0.236'),
 #     ('HARD', 'BNB'): Decimal('0.236'),
@@ -231,7 +231,7 @@ LOSSABLE_UNIT_CC_BOUGHT_RATIO = {
 #     ('ONE', 'BNB'): Decimal('0.236'),
 #     ('SC', 'BNB'): Decimal('0.236'),
 #     ('XLM', 'BNB'): Decimal('0.236'),
-#     ('XRP', 'BNB'): Decimal('0.236'),
+    ('XRP', 'BNB'): Decimal('0.236'),
 #     ('WIN', 'TRX'): Decimal('0.146'),
 }
 # => MA(120)
@@ -258,12 +258,12 @@ MIN_TRADE_FIAT_PRICE = {
 #     ('WIN', 'USDT'): Decimal('0'),
 #     ('XLM', 'USDT'): Decimal('0'),
     ('XRP', 'USDT'): Decimal('0.60'),
-#     ('BNB', 'ETH'): Decimal('0'),
+    ('BNB', 'ETH'): Decimal('0'),
 #     ('HOT', 'ETH'): Decimal('0'),
 #     ('PUNDIX', 'ETH'): Decimal('0'),
 #     ('SC', 'ETH'): Decimal('0'),
 #     ('XLM', 'ETH'): Decimal('0'),
-#     ('XRP', 'ETH'): Decimal('0'),
+    ('XRP', 'ETH'): Decimal('0'),
 #     ('CRV', 'BNB'): Decimal('0'),
 #     ('FIL', 'BNB'): Decimal('0'),
 #     ('HARD', 'BNB'): Decimal('0'),
@@ -273,7 +273,7 @@ MIN_TRADE_FIAT_PRICE = {
 #     ('ONE', 'BNB'): Decimal('0'),
 #     ('SC', 'BNB'): Decimal('0'),
 #     ('XLM', 'BNB'): Decimal('0'),
-#     ('XRP', 'BNB'): Decimal('0'),
+    ('XRP', 'BNB'): Decimal('0'),
 #     ('WIN', 'TRX'): Decimal('0'),
 }
 MAX_TRADE_FIAT_PRICE = {
@@ -299,12 +299,12 @@ MAX_TRADE_FIAT_PRICE = {
 #     ('WIN', 'USDT'): Decimal('Infinity'),
 #     ('XLM', 'USDT'): Decimal('Infinity'),
     ('XRP', 'USDT'): Decimal('Infinity'),
-#     ('BNB', 'ETH'): Decimal('Infinity'),
+    ('BNB', 'ETH'): Decimal('Infinity'),
 #     ('HOT', 'ETH'): Decimal('Infinity'),
 #     ('PUNDIX', 'ETH'): Decimal('Infinity'),
 #     ('SC', 'ETH'): Decimal('Infinity'),
 #     ('XLM', 'ETH'): Decimal('Infinity'),
-#     ('XRP', 'ETH'): Decimal('Infinity'),
+    ('XRP', 'ETH'): Decimal('Infinity'),
 #     ('CRV', 'BNB'): Decimal('Infinity'),
 #     ('FIL', 'BNB'): Decimal('Infinity'),
 #     ('HARD', 'BNB'): Decimal('Infinity'),
@@ -314,7 +314,7 @@ MAX_TRADE_FIAT_PRICE = {
 #     ('ONE', 'BNB'): Decimal('Infinity'),
 #     ('SC', 'BNB'): Decimal('Infinity'),
 #     ('XLM', 'BNB'): Decimal('Infinity'),
-#     ('XRP', 'BNB'): Decimal('Infinity'),
+    ('XRP', 'BNB'): Decimal('Infinity'),
 #     ('WIN', 'TRX'): Decimal('Infinity'),
 }
 ICON_URL = {
